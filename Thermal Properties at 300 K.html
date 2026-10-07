@@ -1,0 +1,292 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Thermal Properties at 300 K</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+  /* Layout: one centred column; header, a control bar, then the table in its own scroll box. */
+  :root {
+    --bg: #f5f4f5;
+    --surface: #ffffff;
+    --fg: #26262f;
+    --muted: #686470;
+    --line: #e2dee2;
+    --accent: #801620;
+    --accent-soft: #f3e4e5;
+    --metal: #3f5577;  --metal-bg: #e6ebf3;
+    --solid: #7a5326;  --solid-bg: #f3ebe0;
+    --liquid: #156a7e; --liquid-bg: #e0f0f3;
+    --gas: #5b6b2a;    --gas-bg: #ecf0dd;
+    --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17161a; --surface: #201f24; --fg: #ecebef; --muted: #a29ea9; --line: #35333b;
+      --accent: #e58a92; --accent-soft: #3a2326;
+      --metal: #a9bde0; --metal-bg: #2a3242;
+      --solid: #e0bf92; --solid-bg: #3a3022;
+      --liquid: #8fd3e2; --liquid-bg: #1d363c;
+      --gas: #c5d58f;   --gas-bg: #30361f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17161a; --surface: #201f24; --fg: #ecebef; --muted: #a29ea9; --line: #35333b;
+    --accent: #e58a92; --accent-soft: #3a2326;
+    --metal: #a9bde0; --metal-bg: #2a3242;
+    --solid: #e0bf92; --solid-bg: #3a3022;
+    --liquid: #8fd3e2; --liquid-bg: #1d363c;
+    --gas: #c5d58f;   --gas-bg: #30361f;
+    color-scheme: dark;
+  }
+
+  body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.45; margin: 0; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 40px; display: grid; gap: 18px; }
+
+  header { display: grid; gap: 6px; }
+  .eyebrow { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-family: var(--display); font-weight: 600; font-size: clamp(26px, 4vw, 34px); line-height: 1.1; margin: 0; text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 65ch; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip-btn { font: 600 13px/1 var(--body); padding: 7px 11px; border-radius: 999px; border: 1px solid var(--line);
+              background: var(--surface); color: var(--fg); cursor: pointer; }
+  .chip-btn .n { color: var(--muted); font-weight: 400; margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .chip-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  .chip-btn[aria-pressed="true"] .n { color: var(--surface); opacity: 0.8; }
+  .search { flex: 1 1 200px; min-width: 0; max-width: 280px; font: 15px var(--body); padding: 7px 10px; border-radius: 6px;
+            border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+  .toggle { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .tablebox { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--accent-soft); }
+  th { vertical-align: bottom; padding-block: 10px 8px; }
+  th button { all: unset; cursor: pointer; display: inline-grid; gap: 1px; font-family: var(--display); }
+  th .lab { font-weight: 600; font-size: 16px; color: var(--fg); display: inline-flex; align-items: center; gap: 5px; }
+  th .unit { font-family: var(--body); font-size: 12px; color: var(--muted); }
+  th .arrow { font-size: 11px; color: var(--accent); width: 10px; display: inline-block; }
+  th.num, td.num { text-align: right; }
+  th.num button { justify-items: end; }
+  td.num { font-size: 15px; }
+  td.key { font-weight: 600; }
+  .name { white-space: normal; min-width: 11em; }
+  .note { color: var(--muted); font-size: 13px; margin-left: 4px; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .t-metal { color: var(--metal); background: var(--metal-bg); }
+  .t-solid { color: var(--solid); background: var(--solid-bg); }
+  .t-liquid { color: var(--liquid); background: var(--liquid-bg); }
+  .t-gas { color: var(--gas); background: var(--gas-bg); }
+  .extra { color: var(--muted); }
+  table.hide-extra .extra { display: none; }
+  .empty td { text-align: center; color: var(--muted); padding: 24px; white-space: normal; }
+
+  .status { font-size: 13px; color: var(--muted); margin: 0; }
+  footer { display: grid; gap: 6px; font-size: 13px; color: var(--muted); max-width: 75ch; }
+  footer p { margin: 0; }
+  @media (max-width: 520px) { .wrap { padding-inline: 16px; } th, td { padding-inline: 9px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Heat conduction · property data</div>
+    <h1>Thermal properties of common materials near 300 K</h1>
+    <p class="lede">Conductivity <i>k</i>, heat capacity per unit volume <i>ρc<sub>p</sub></i> and thermal diffusivity <i>α</i> = <i>k</i>/(<i>ρc<sub>p</sub></i>) for metals, other solids, liquids and gases. Select a column heading to sort.</p>
+  </header>
+
+  <div class="controls">
+    <div class="chips" role="group" aria-label="Show group">
+      <button class="chip-btn" type="button" id="g-all" data-g="all" aria-pressed="true">All<span class="n"></span></button>
+      <button class="chip-btn" type="button" id="g-metal" data-g="metal" aria-pressed="false">Metals<span class="n"></span></button>
+      <button class="chip-btn" type="button" id="g-solid" data-g="solid" aria-pressed="false">Other solids<span class="n"></span></button>
+      <button class="chip-btn" type="button" id="g-liquid" data-g="liquid" aria-pressed="false">Liquids<span class="n"></span></button>
+      <button class="chip-btn" type="button" id="g-gas" data-g="gas" aria-pressed="false">Gases<span class="n"></span></button>
+    </div>
+    <input class="search" id="q" type="search" placeholder="Find a material" aria-label="Find a material">
+    <label class="toggle" for="extra"><input type="checkbox" id="extra"> Show ρ and c<sub>p</sub></label>
+  </div>
+
+  <div class="tablebox">
+    <table id="tbl" class="hide-extra">
+      <thead>
+        <tr>
+          <th data-key="name" aria-sort="none"><button type="button"><span class="lab">Material<span class="arrow"></span></span><span class="unit">&nbsp;</span></button></th>
+          <th data-key="group" aria-sort="none"><button type="button"><span class="lab">Group<span class="arrow"></span></span><span class="unit">&nbsp;</span></button></th>
+          <th class="num" data-key="k" aria-sort="none"><button type="button"><span class="lab"><span class="arrow"></span><i>k</i></span><span class="unit">W/(m·K)</span></button></th>
+          <th class="num" data-key="rc" aria-sort="none"><button type="button"><span class="lab"><span class="arrow"></span><i>ρc<sub>p</sub></i></span><span class="unit">MJ/(m³·K)</span></button></th>
+          <th class="num" data-key="a" aria-sort="none"><button type="button"><span class="lab"><span class="arrow"></span><i>α</i></span><span class="unit">10⁻⁶ m²/s</span></button></th>
+          <th class="num extra" data-key="rho" aria-sort="none"><button type="button"><span class="lab"><span class="arrow"></span><i>ρ</i></span><span class="unit">kg/m³</span></button></th>
+          <th class="num extra" data-key="cp" aria-sort="none"><button type="button"><span class="lab"><span class="arrow"></span><i>c<sub>p</sub></i></span><span class="unit">J/(kg·K)</span></button></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="status" id="status" aria-live="polite"></p>
+
+  <footer>
+    <p>Values are at 300 K, and gases at 1 atm, unless the row says otherwise. <i>ρc<sub>p</sub></i> and <i>α</i> are computed from the listed <i>ρ</i>, <i>c<sub>p</sub></i> and <i>k</i>.</p>
+    <p>For a gas, <i>ρc<sub>p</sub></i> is proportional to pressure, so <i>α</i> varies inversely with pressure.</p>
+    <p>Sources: standard heat transfer property tables (Incropera et al., <i>Fundamentals of Heat and Mass Transfer</i>, Appendix A) for most rows. Rows marked “typical” are representative handbook values for materials whose properties vary with grade or composition.</p>
+  </footer>
+</div>
+
+<script>
+  // name, group, rho [kg/m3], cp [J/(kg K)], k [W/(m K)], note
+  const DATA = [
+    ["Silver","metal",10500,235,429,""],
+    ["Copper","metal",8933,385,401,"pure"],
+    ["Gold","metal",19300,129,317,""],
+    ["Aluminium","metal",2702,903,237,"pure"],
+    ["Aluminium alloy 2024-T6","metal",2770,875,177,""],
+    ["Tungsten","metal",19300,132,174,""],
+    ["Magnesium","metal",1740,1024,156,""],
+    ["Molybdenum","metal",10240,251,138,""],
+    ["Zinc","metal",7140,389,116,""],
+    ["Brass","metal",8530,380,110,"70Cu–30Zn"],
+    ["Nickel","metal",8900,444,90.7,"pure"],
+    ["Iron","metal",7870,447,80.2,"pure"],
+    ["Platinum","metal",21450,133,71.6,""],
+    ["Tin","metal",7310,227,66.6,""],
+    ["Carbon steel","metal",7832,434,63.9,"AISI 1010"],
+    ["Bronze","metal",8800,420,52,"90Cu–10Al"],
+    ["Lead","metal",11340,129,35.3,""],
+    ["Titanium","metal",4500,522,21.9,"pure"],
+    ["Stainless steel","metal",7900,477,14.9,"AISI 304"],
+    ["Inconel X-750","metal",8510,439,11.7,""],
+    ["Titanium alloy Ti-6Al-4V","metal",4420,610,7.1,""],
+    ["Diamond","solid",3500,509,2300,"type IIa"],
+    ["Silicon carbide","solid",3160,675,490,""],
+    ["Silicon","solid",2330,712,148,""],
+    ["Alumina, sapphire","solid",3970,765,46,""],
+    ["Alumina, polycrystalline","solid",3970,765,36.0,""],
+    ["Sandstone","solid",2150,745,2.90,""],
+    ["Marble","solid",2680,830,2.80,""],
+    ["Granite","solid",2630,775,2.79,""],
+    ["Ice","solid",920,2040,1.88,"273 K"],
+    ["Concrete","solid",2300,880,1.4,"stone mix"],
+    ["Glass, plate","solid",2500,750,1.4,"soda-lime"],
+    ["Glass, Pyrex","solid",2225,835,1.4,""],
+    ["Fused silica","solid",2220,745,1.38,""],
+    ["Brick, common","solid",1920,835,0.72,""],
+    ["Soil","solid",2050,1840,0.52,""],
+    ["HDPE","solid",950,1900,0.48,"typical"],
+    ["Sand, dry","solid",1515,800,0.27,""],
+    ["PTFE (Teflon)","solid",2200,1000,0.25,"typical"],
+    ["Epoxy","solid",1200,1100,0.20,"typical"],
+    ["PMMA (acrylic)","solid",1190,1470,0.19,"typical"],
+    ["Hardwood","solid",720,1255,0.16,"oak, maple"],
+    ["Rubber, soft","solid",1100,2010,0.13,""],
+    ["Softwood","solid",510,1380,0.12,"fir, pine"],
+    ["Glass-fibre blanket","solid",16,835,0.046,""],
+    ["Cork","solid",120,1800,0.039,""],
+    ["Polystyrene foam","solid",55,1210,0.027,"extruded"],
+    ["Liquid sodium","liquid",929,1382,86.2,"366 K"],
+    ["Mercury","liquid",13529,139.3,8.54,""],
+    ["Water","liquid",997,4179,0.613,""],
+    ["Glycerin","liquid",1259.9,2427,0.286,""],
+    ["Ethylene glycol","liquid",1114.4,2415,0.252,""],
+    ["Ethanol","liquid",789,2440,0.171,"typical"],
+    ["Engine oil","liquid",884.1,1909,0.145,"unused"],
+    ["R-134a","liquid",1199.7,1432,0.0803,"saturated"],
+    ["Hydrogen","gas",0.08078,14310,0.183,""],
+    ["Helium","gas",0.1625,5193,0.152,""],
+    ["Oxygen","gas",1.2840,920.3,0.0268,""],
+    ["Air","gas",1.1614,1007,0.0263,""],
+    ["Steam","gas",0.5542,2014,0.0261,"400 K"],
+    ["Nitrogen","gas",1.1233,1041,0.0259,""],
+    ["Argon","gas",1.623,520.3,0.0177,""],
+    ["Carbon dioxide","gas",1.7730,851,0.01655,""]
+  ];
+
+  const GROUPS = { metal: ["Metal", 0], solid: ["Other solid", 1], liquid: ["Liquid", 2], gas: ["Gas", 3] };
+
+  const rows = DATA.map(([name, group, rho, cp, k, note]) => ({
+    name, group, rho, cp, k, note,
+    rc: rho * cp / 1e6,        // MJ/(m3 K)
+    a: k / (rho * cp) * 1e6    // 1e-6 m2/s
+  }));
+
+  // three significant figures, written without exponents
+  function fmt(x) {
+    const s = Number(x.toPrecision(3)).toString();
+    if (!s.includes("e")) return s;
+    return Number(x.toPrecision(3)).toFixed(Math.max(0, 2 - Math.floor(Math.log10(Math.abs(x)))));
+  }
+  function esc(s) { return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  const state = { key: "a", dir: -1, group: "all", q: "" };
+  const tbody = document.getElementById("rows");
+  const table = document.getElementById("tbl");
+  const statusEl = document.getElementById("status");
+
+  function compare(x, y) {
+    const key = state.key;
+    let d;
+    if (key === "name") d = x.name.localeCompare(y.name);
+    else if (key === "group") d = (GROUPS[x.group][1] - GROUPS[y.group][1]) || (y.k - x.k) * state.dir;   // within a group: k, largest first
+    else d = x[key] - y[key];
+    return d * state.dir;
+  }
+
+  function render() {
+    const q = state.q.trim().toLowerCase();
+    const shown = rows
+      .filter(r => state.group === "all" || r.group === state.group)
+      .filter(r => !q || (r.name + " " + r.note).toLowerCase().includes(q))
+      .sort(compare);
+
+    if (shown.length === 0) {
+      tbody.innerHTML = '<tr class="empty"><td colspan="7">No material matches “' + esc(state.q.trim()) + '”. Clear the search box or choose another group.</td></tr>';
+    } else {
+      tbody.innerHTML = shown.map(r =>
+        "<tr>" +
+          '<td class="name">' + esc(r.name) + (r.note ? '<span class="note">' + esc(r.note) + "</span>" : "") + "</td>" +
+          '<td><span class="tag t-' + r.group + '">' + GROUPS[r.group][0] + "</span></td>" +
+          '<td class="num' + (state.key === "k" ? " key" : "") + '">' + fmt(r.k) + "</td>" +
+          '<td class="num' + (state.key === "rc" ? " key" : "") + '">' + fmt(r.rc) + "</td>" +
+          '<td class="num' + (state.key === "a" ? " key" : "") + '">' + fmt(r.a) + "</td>" +
+          '<td class="num extra">' + fmt(r.rho) + "</td>" +
+          '<td class="num extra">' + fmt(r.cp) + "</td>" +
+        "</tr>").join("");
+    }
+
+    document.querySelectorAll("th[data-key]").forEach(th => {
+      const on = th.dataset.key === state.key;
+      th.setAttribute("aria-sort", on ? (state.dir > 0 ? "ascending" : "descending") : "none");
+      th.querySelector(".arrow").textContent = on ? (state.dir > 0 ? "▲" : "▼") : "";
+    });
+    statusEl.textContent = "Showing " + shown.length + " of " + rows.length + " materials.";
+  }
+
+  document.querySelectorAll("th[data-key] button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.closest("th").dataset.key;
+      if (state.key === key) state.dir = -state.dir;
+      else { state.key = key; state.dir = (key === "name" || key === "group") ? 1 : -1; }
+      render();
+    });
+  });
+
+  document.querySelectorAll(".chip-btn").forEach(b => {
+    const g = b.dataset.g;
+    b.querySelector(".n").textContent = g === "all" ? rows.length : rows.filter(r => r.group === g).length;
+    b.addEventListener("click", () => {
+      state.group = g;
+      document.querySelectorAll(".chip-btn").forEach(o => o.setAttribute("aria-pressed", String(o === b)));
+      render();
+    });
+  });
+
+  document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+  document.getElementById("extra").addEventListener("change", e => table.classList.toggle("hide-extra", !e.target.checked));
+
+  render();
+</script>
+
+</body></html>
